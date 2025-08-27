@@ -1,0 +1,10 @@
+services:
+  postgres:
+    image: 'postgres:latest'
+    container_name: postgres_motusense
+    environment:
+      - 'POSTGRES_DB=mydb'
+      - 'POSTGRES_PASSWORD=secrett'
+      - 'POSTGRES_USER=myusuario'
+    ports:
+      - '5432:5432'

@@ -1,0 +1,29 @@
+<!-- Listar.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Lista de Pátios</title>
+</head>
+<body>
+<h1>Pátios</h1>
+<table>
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Nome</th>
+    <th>Endereço</th>
+    <!-- Adicione outros campos conforme necessário -->
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="patio : ${patios}">
+    <td th:text="${patio.id}"></td>
+    <td th:text="${patio.nome}"></td>
+    <td th:text="${patio.endereco}"></td>
+    <!-- Outros campos -->
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>

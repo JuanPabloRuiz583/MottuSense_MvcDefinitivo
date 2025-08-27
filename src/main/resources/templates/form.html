@@ -1,0 +1,69 @@
+<!-- Mottusense/src/main/resources/templates/form.html -->
+<!DOCTYPE html>
+<html lang="en" data-theme="dracula">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
+    <title>Mottu Sense - <span th:text="#{moto.new}"></span></title>
+</head>
+<body>
+
+<h1 class="text-primary text-2xl font-bold p-4" th:text="#{moto.new}"></h1>
+
+
+
+<main class="grid grid-cols-1 gap-4 p-4 place-items-center ">
+    <form method="POST" class="w-full max-w-md" th:object="${moto}" th:action="@{/moto/form}">
+
+        <!-- exibe mensagens de erro globais do formulário que não estão ligados a um campo específico -->
+        <div th:if="${#fields.hasGlobalErrors()}" class="alert alert-error m-4">
+            <span th:each="err : ${#fields.globalErrors()}" th:text="${err}"></span>
+        </div>
+
+        <h2 class="text-secondary font-bold text-xl" th:text="#{moto.new}"></h2>
+
+        <fieldset class="fieldset">
+            <legend class="fieldset-legend" th:text="#{placa}"></legend>
+            <input th:field="*{placa}" th:errorclass="input-error" type="text" class="input" maxlength="10" />
+            <p class="label text-error" th:errors="*{placa}"></p>
+        </fieldset>
+
+        <fieldset class="fieldset">
+            <legend class="fieldset-legend" th:text="#{modelo}"></legend>
+            <input th:field="*{modelo}" th:errorclass="input-error" type="text" class="input" maxlength="50" />
+            <p class="label text-error" th:errors="*{modelo}"></p>
+        </fieldset>
+
+        <fieldset class="fieldset">
+            <legend class="fieldset-legend" th:text="#{numeroChassi}"></legend>
+            <input th:field="*{numeroChassi}" th:errorclass="input-error" type="text" class="input" maxlength="17" />
+            <p class="label text-error" th:errors="*{numeroChassi}"></p>
+        </fieldset>
+
+        <fieldset class="fieldset">
+            <legend class="fieldset-legend" th:text="#{status}"></legend>
+            <select th:field="*{status}" class="select">
+                <option th:each="s : ${T(br.com.fiap.Mottusense.models.StatusMoto).values()}" th:value="${s}" th:text="${s}"></option>
+            </select>
+            <p class="label text-error" th:errors="*{status}"></p>
+        </fieldset>
+
+        <fieldset class="fieldset">
+            <legend class="fieldset-legend" th:text="#{patio}"></legend>
+            <select th:field="*{patio}" class="select">
+                <option th:each="p : ${patios}" th:value="${p.id}" th:text="${p.nome}"></option>
+            </select>
+            <p class="label text-error" th:errors="*{patio}"></p>
+        </fieldset>
+
+        <div>
+            <a href="/moto" class="btn btn-neutral" th:text="#{cancel}"></a>
+            <button class="btn btn-primary" th:text="#{save}"></button>
+        </div>
+    </form>
+</main>
+
+</body>
+</html>

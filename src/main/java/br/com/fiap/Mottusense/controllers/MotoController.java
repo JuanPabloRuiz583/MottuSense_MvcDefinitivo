@@ -1,0 +1,73 @@
+package br.com.fiap.Mottusense.controllers;
+
+import br.com.fiap.Mottusense.models.Moto;
+import br.com.fiap.Mottusense.repositorys.PatioRepository;
+import br.com.fiap.Mottusense.services.MotoService;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import jakarta.validation.Valid;
+import org.springframework.validation.BindingResult;
+
+@Controller
+@RequestMapping("/moto")
+public class MotoController {
+
+    private final MotoService motoService;
+    private final MessageSource messageSource;
+    private final PatioRepository patioRepository;
+
+    public MotoController(MotoService motoService, MessageSource messageSource, PatioRepository patioRepository) {
+        this.motoService = motoService;
+        this.messageSource = messageSource;
+        this.patioRepository = patioRepository;
+    }
+
+    @GetMapping
+    public String index(Model model) {
+        var motos = motoService.getAllMotos();
+        model.addAttribute("motos", motos);
+        return "index";
+    }
+
+    //@GetMapping("/form")
+    //public String form(Moto moto) {
+     //   return "form";
+    //}
+
+    @GetMapping("/form")
+    public String form(Model model, Moto moto) {
+        model.addAttribute("moto", moto);
+        model.addAttribute("patios", patioRepository.findAll());
+        return "form";
+    }
+
+    @PostMapping("/form")
+    public String save(@Valid Moto moto,BindingResult result,Model model, RedirectAttributes redirect) {
+        String erro = motoService.validarDuplicidade(moto);
+        if (erro != null) {
+            result.reject("error.moto", erro);
+        }
+        if (result.hasErrors()) {
+            model.addAttribute("patios", patioRepository.findAll());
+            return "form";
+        }
+        motoService.save(moto);
+        var message = messageSource.getMessage("moto.create.success", null, LocaleContextHolder.getLocale());
+        redirect.addFlashAttribute("message", message);
+        return "redirect:/moto";
+    }
+
+    //deletar motos
+    @PostMapping("/delete/{id}")
+    public String delete(@PathVariable Long id, RedirectAttributes redirect) {
+        motoService.deleteById(id);
+        var message = messageSource.getMessage("delete", null, LocaleContextHolder.getLocale());
+        redirect.addFlashAttribute("message", message + " realizada com sucesso!");
+        return "redirect:/moto";
+    }
+}
