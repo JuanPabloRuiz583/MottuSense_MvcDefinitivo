@@ -5,6 +5,7 @@ import br.com.fiap.Mottusense.repositorys.PatioRepository;
 import br.com.fiap.Mottusense.services.MotoService;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -46,8 +47,11 @@ public class MotoController {
         return "form";
     }
 
+
+
+
     @PostMapping("/form")
-    public String save(@Valid Moto moto,BindingResult result,Model model, RedirectAttributes redirect) {
+    public String saveMoto(@Valid @ModelAttribute Moto moto, BindingResult result, Model model) {
         String erro = motoService.validarDuplicidade(moto);
         if (erro != null) {
             result.reject("error.moto", erro);
@@ -56,11 +60,16 @@ public class MotoController {
             model.addAttribute("patios", patioRepository.findAll());
             return "form";
         }
-        motoService.save(moto);
-        var message = messageSource.getMessage("moto.create.success", null, LocaleContextHolder.getLocale());
-        redirect.addFlashAttribute("message", message);
+        try {
+            motoService.save(moto);
+        } catch (DataIntegrityViolationException e) {
+            result.reject("error.moto", "Placa or Chassi already exists.");
+            model.addAttribute("patios", patioRepository.findAll());
+            return "form";
+        }
         return "redirect:/moto";
     }
+
 
     //deletar motos
     @PostMapping("/delete/{id}")

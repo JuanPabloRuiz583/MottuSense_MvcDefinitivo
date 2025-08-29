@@ -52,9 +52,10 @@
 
         <fieldset class="fieldset">
             <legend class="fieldset-legend" th:text="#{patio}"></legend>
-            <select th:field="*{patio}" class="select">
+            <select th:field="*{patio.id}" class="select">
                 <option th:each="p : ${patios}" th:value="${p.id}" th:text="${p.nome}"></option>
             </select>
+
             <p class="label text-error" th:errors="*{patio}"></p>
         </fieldset>
 
@@ -66,4 +67,3 @@
 </main>
 
 </body>
-</html>
