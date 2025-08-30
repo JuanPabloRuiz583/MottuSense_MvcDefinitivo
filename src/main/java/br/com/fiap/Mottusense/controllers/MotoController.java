@@ -51,7 +51,7 @@ public class MotoController {
 
 
     @PostMapping("/form")
-    public String saveMoto(@Valid @ModelAttribute Moto moto, BindingResult result, Model model) {
+    public String saveMoto(@Valid @ModelAttribute Moto moto, BindingResult result, Model model, RedirectAttributes redirectAttributes) {
         String erro = motoService.validarDuplicidade(moto);
         if (erro != null) {
             result.reject("error.moto", erro);
@@ -62,6 +62,7 @@ public class MotoController {
         }
         try {
             motoService.save(moto);
+            redirectAttributes.addFlashAttribute("message", "Moto criada com sucesso");
         } catch (DataIntegrityViolationException e) {
             result.reject("error.moto", "Placa or Chassi already exists.");
             model.addAttribute("patios", patioRepository.findAll());

@@ -1,58 +1,67 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dracula">
+<html lang="en" data-theme="light">
 <head>
-  <meta charset="UTF-8">
-  <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
-  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-  <link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
-  <title>Mottu Sense</title>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
+    <title>Mottu Sense</title>
 </head>
 <body>
-
-<nav class="navbar bg-base-300 shadow-sm">
-  <div class="flex-1">
-    <a class="btn btn-ghost text-xl">MottuSense</a>
-  </div>
-  <div class="flex-none">
-    <ul class="menu menu-horizontal px-1">
-      <li>
-        <a href="/patio" class="btn btn-secondary">Ver Pátios</a>
-      </li>
-      <li>
-        <details>
-          <summary>🌎</summary>
-          <ul class="bg-base-100 rounded-t-none p-2">
-            <li><a href="?lang=pt_BR">🇧🇷</a></li>
-            <li><a href="?lang=en_US">🏴</a></li>
-          </ul>
-        </details>
-      </li>
-    </ul>
-    <!-- Bloco de autenticação removido -->
-  </div>
+<nav class="navbar bg-green-600 text-white shadow-sm p-4">
+    <div class="flex-1">
+        <div class="logo-container">
+            <!-- Substitua pelo caminho real da sua imagem -->
+            <img src="/images/logoo.jpg" alt="Mottu Sense Logo" class="h-12 w-auto" style="max-width: 100%; height: auto;">
+            <div class="logo-text">
+                <span class="logo-title">Mottu Sense</span>
+                <span class="logo-subtitle">Controle inteligente, gestão eficiente.</span>
+            </div>
+        </div>
+    </div>
+    <div class="flex-none">
+        <ul class="menu menu-horizontal px-1">
+            <li>
+                <a href="/patio" class="btn bg-green-700 text-white border-none hover:bg-green-800">Ver Pátios</a>
+            </li>
+            <li>
+                <details>
+                    <summary class="bg-green-700 text-white">🌎</summary>
+                    <ul class="bg-green-600 rounded-t-none p-2">
+                        <li><a href="?lang=pt_BR" class="text-white hover:bg-green-700">🇧🇷</a></li>
+                        <li><a href="?lang=en_US" class="text-white hover:bg-green-700">🏴</a></li>
+                    </ul>
+                </details>
+            </li>
+        </ul>
+        <!-- Bloco de autenticação removido -->
+    </div>
 </nav>
 
-<a href="/moto/form" class="btn btn-primary" th:text="#{moto.new}"></a>
-
-<div th:if="${message}" role="alert" class="alert alert-success alert-soft m-4">
-  <span th:text="${message}"></span>
+<div class="p-4">
+    <a href="/moto/form" class="btn bg-green-600 text-white border-none hover:bg-green-700" th:text="#{moto.new}"></a>
 </div>
 
+<div th:if="${message}" role="alert" class="alert bg-green-100 text-green-800 border-green-400 border-l-4 border-green-600 m-4">
+    <span th:text="${message}"></span>
+</div>
+
+
 <main class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4 place-items-center ">
-  <div th:each="moto : ${motos}" class="card w-96 bg-base-300 card-md shadow-sm">
-    <div class="badge badge-accent m-4" th:text="${moto.status}"></div>
-    <div class="card-body items-center">
-      <h2 class="card-title" th:text="${moto.modelo}"></h2>
-      <p th:text="'Placa: ' + ${moto.placa}"></p>
-      <p th:text="'Chassi: ' + ${moto.numeroChassi}"></p>
-      <p th:if="${moto.patio != null}" th:text="'Pátio: ' + ${moto.patio.nome}"></p>
+    <div th:each="moto : ${motos}" class="card w-96 bg-base-300 card-md shadow-sm">
+        <div class="badge bg-green-600 text-white m-4" th:text="${moto.status}"></div>
+        <div class="card-body items-center">
+            <h2 class="card-title" th:text="${moto.modelo}"></h2>
+            <p th:text="'Placa: ' + ${moto.placa}"></p>
+            <p th:text="'Chassi: ' + ${moto.numeroChassi}"></p>
+            <p th:if="${moto.patio != null}" th:text="'Pátio: ' + ${moto.patio.nome}"></p>
+        </div>
+        <div class="justify-end card-actions m-4">
+            <form th:action="@{/moto/delete/{id}(id=${moto.id})}" method="post" style="display:inline;">
+                <button type="submit" class="btn bg-red-600 text-white border-none hover:bg-red-700" th:text="#{delete}"></button>
+            </form>
+        </div>
     </div>
-    <div class="justify-end card-actions m-4">
-      <form th:action="@{/moto/delete/{id}(id=${moto.id})}" method="post" style="display:inline;">
-        <button type="submit" class="btn btn-error" th:text="#{delete}"></button>
-      </form>
-    </div>
-  </div>
 </main>
 
 </body>
