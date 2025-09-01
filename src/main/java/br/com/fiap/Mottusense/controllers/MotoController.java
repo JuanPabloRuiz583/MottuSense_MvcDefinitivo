@@ -35,10 +35,6 @@ public class MotoController {
         return "index";
     }
 
-    //@GetMapping("/form")
-    //public String form(Moto moto) {
-     //   return "form";
-    //}
 
     @GetMapping("/form")
     public String form(Model model, Moto moto) {

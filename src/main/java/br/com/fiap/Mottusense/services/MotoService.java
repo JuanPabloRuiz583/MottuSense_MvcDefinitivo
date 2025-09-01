@@ -2,6 +2,7 @@ package br.com.fiap.Mottusense.services;
 
 import br.com.fiap.Mottusense.models.Moto;
 import br.com.fiap.Mottusense.repositorys.MotoRepository;
+import br.com.fiap.Mottusense.repositorys.PatioRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,11 +11,12 @@ import java.util.List;
 public class MotoService {
 
     private final MotoRepository motoRepository;
+    private final PatioRepository patioRepository;
 
-    public MotoService(MotoRepository motoRepository) {
+    public MotoService(MotoRepository motoRepository, PatioRepository patioRepository) {
         this.motoRepository = motoRepository;
+        this.patioRepository = patioRepository;
     }
-
     public List<Moto> getAllMotos() {
         return motoRepository.findAll();
     }
@@ -37,4 +39,6 @@ public class MotoService {
         }
         return null;
     }
+
+
 }

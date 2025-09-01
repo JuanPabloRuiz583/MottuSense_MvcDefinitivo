@@ -8,6 +8,7 @@
     <title>Mottu Sense</title>
 </head>
 <body>
+
 <nav class="navbar bg-green-600 text-white shadow-sm p-4">
     <div class="flex-1">
         <div class="logo-container">
@@ -40,6 +41,8 @@
 
 <div class="p-4">
     <a href="/moto/form" class="btn bg-green-600 text-white border-none hover:bg-green-700" th:text="#{moto.new}"></a>
+    <a href="/sensor-localizacao" class="btn bg-blue-600 text-white border-none hover:bg-blue-700">Ir para a página de sensores</a>
+
 </div>
 
 <div th:if="${message}" role="alert" class="alert bg-green-100 text-green-800 border-green-400 border-l-4 border-green-600 m-4">

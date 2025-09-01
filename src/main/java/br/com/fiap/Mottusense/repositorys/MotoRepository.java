@@ -7,4 +7,5 @@ public interface MotoRepository extends JpaRepository<Moto, Long> {
 
     boolean existsByPlaca(String placa);
     boolean existsByNumeroChassi(String numeroChassi);
+    Moto findByPlaca(String placa);
 }

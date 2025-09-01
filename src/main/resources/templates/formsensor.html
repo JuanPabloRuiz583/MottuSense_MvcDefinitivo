@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
+    <title>Mottu Sense - Novo Sensor</title>
+</head>
+<body class="bg-base-200 min-h-screen flex flex-col">
+
+<header class="bg-blue-600 text-white p-4 shadow-lg">
+    <h1 class="text-2xl font-bold">Novo Sensor</h1>
+</header>
+
+<main class="flex-grow grid grid-cols-1 gap-6 p-6 place-items-center">
+    <form method="POST" class="w-full max-w-md bg-white shadow-xl rounded-lg p-6"
+          th:object="${sensorLocalizacao}" th:action="@{/sensor-localizacao/form}">
+
+        <!-- Erros globais -->
+        <div th:if="${#fields.hasGlobalErrors()}" class="alert alert-error mb-4">
+            <span th:each="err : ${#fields.globalErrors()}" th:text="${err}"></span>
+        </div>
+
+        <h2 class="text-lg font-bold mb-4 text-gray-700">Cadastrar Sensor</h2>
+
+        <!-- Latitude -->
+        <fieldset class="fieldset mb-4">
+            <legend class="fieldset-legend">Latitude</legend>
+            <input th:field="*{latitude}" th:errorclass="input-error"
+                   type="number" step="any" class="input input-bordered w-full" />
+            <p class="label text-error" th:errors="*{latitude}"></p>
+        </fieldset>
+
+        <!-- Longitude -->
+        <fieldset class="fieldset mb-4">
+            <legend class="fieldset-legend">Longitude</legend>
+            <input th:field="*{longitude}" th:errorclass="input-error"
+                   type="number" step="any" class="input input-bordered w-full" />
+            <p class="label text-error" th:errors="*{longitude}"></p>
+        </fieldset>
+
+        <!-- Data e Hora da Localização -->
+        <fieldset class="fieldset mb-4">
+            <legend class="fieldset-legend">Data e Hora</legend>
+            <input th:field="*{timeDaLocalizacao}" th:errorclass="input-error"
+                   type="datetime-local" class="input input-bordered w-full" />
+            <p class="label text-error" th:errors="*{timeDaLocalizacao}"></p>
+        </fieldset>
+
+        <!-- Placa da Moto -->
+        <fieldset class="fieldset mb-6">
+            <legend class="fieldset-legend">Placa da Moto</legend>
+            <input th:field="*{moto.placa}" th:errorclass="input-error"
+                   type="text" class="input input-bordered w-full" maxlength="10" placeholder="Digite a placa da moto" />
+            <p class="label text-error" th:errors="*{moto.placa}"></p>
+        </fieldset>
+
+        <!-- Botões -->
+        <div class="flex justify-between">
+            <a href="/sensor-localizacao" class="btn btn-neutral">Cancelar</a>
+            <button class="btn btn-success">Salvar</button>
+        </div>
+    </form>
+</main>
+
+</body>
+</html>
