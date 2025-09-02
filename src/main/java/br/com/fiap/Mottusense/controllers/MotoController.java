@@ -5,6 +5,8 @@ import br.com.fiap.Mottusense.repositorys.PatioRepository;
 import br.com.fiap.Mottusense.services.MotoService;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,10 +30,15 @@ public class MotoController {
         this.patioRepository = patioRepository;
     }
 
+
     @GetMapping
-    public String index(Model model) {
+    public String index(Model model,@AuthenticationPrincipal OAuth2User user) {
+        if (user == null) {
+            return "redirect:/login";
+        }
         var motos = motoService.getAllMotos();
         model.addAttribute("motos", motos);
+        model.addAttribute("user", user);
         return "index";
     }
 
