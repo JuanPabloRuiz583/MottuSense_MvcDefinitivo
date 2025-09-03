@@ -39,6 +39,8 @@ public class MotoController {
         var motos = motoService.getAllMotos();
         model.addAttribute("motos", motos);
         model.addAttribute("user", user);
+        var avatar = user.getAttribute("picture") != null ? user.getAttribute("picture") :  user.getAttribute("avatar_url");
+        model.addAttribute("avatar", avatar);
         return "index";
     }
 
