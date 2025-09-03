@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class MotoService {
+public class MotoService implements DuplicidadeValidator<Moto> {
 
     private final MotoRepository motoRepository;
     private final PatioRepository patioRepository;
@@ -30,7 +30,9 @@ public class MotoService {
     }
 
 
-    public String validarDuplicidade(Moto moto) {
+    //para cadastro
+    @Override
+    public String validarDuplicidadeCadastro(Moto moto) {
         if (motoRepository.existsByPlaca(moto.getPlaca())) {
             return "Placa já cadastrada.";
         }
@@ -40,5 +42,23 @@ public class MotoService {
         return null;
     }
 
+    //para edicao
+    @Override
+    public String validarDuplicidadeEdicao(Moto moto, Long idAtual) {
+        var existentePorPlaca = motoRepository.findByPlaca(moto.getPlaca());
+        if (existentePorPlaca != null && !existentePorPlaca.getId().equals(idAtual)) {
+            return "Placa já cadastrada.";
+        }
+        var existentePorChassi = motoRepository.findByNumeroChassi(moto.getNumeroChassi());
+        if (existentePorChassi != null && !existentePorChassi.getId().equals(idAtual)) {
+            return "Número de chassi já cadastrado.";
+        }
+        return null;
+    }
+
+    public Moto findById(Long id) {
+        return motoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Moto não encontrada"));
+    }
 
 }

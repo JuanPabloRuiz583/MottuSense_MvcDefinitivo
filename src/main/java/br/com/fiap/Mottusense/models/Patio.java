@@ -31,4 +31,10 @@ public class Patio {
 
     @OneToMany(mappedBy = "patio", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Moto> motos;
+
+
+    @Override
+    public String toString() {
+        return "Patio{id=" + id + ", nome='" + nome + "'}";
+    }
 }

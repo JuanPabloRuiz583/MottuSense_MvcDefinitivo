@@ -16,7 +16,7 @@
 </header>
 
 <main class="flex-grow grid grid-cols-1 gap-6 p-6 place-items-center">
-    <form method="POST" class="w-full max-w-md bg-white shadow-xl rounded-lg p-6" th:object="${moto}" th:action="@{/moto/form}">
+    <form method="POST" class="w-full max-w-md bg-white shadow-xl rounded-lg p-6" th:object="${moto}"  th:action="${moto.id} != null ? @{/moto/edit/{id}(id=${moto.id})} : @{/moto/form}">
 
         <!-- Erros globais -->
         <div th:if="${#fields.hasGlobalErrors()}" class="alert alert-error mb-4">

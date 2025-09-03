@@ -1,6 +1,7 @@
 package br.com.fiap.Mottusense.controllers;
 
 import br.com.fiap.Mottusense.models.Moto;
+import br.com.fiap.Mottusense.models.Patio;
 import br.com.fiap.Mottusense.repositorys.PatioRepository;
 import br.com.fiap.Mottusense.services.MotoService;
 import org.springframework.context.MessageSource;
@@ -57,7 +58,7 @@ public class MotoController {
 
     @PostMapping("/form")
     public String saveMoto(@Valid @ModelAttribute Moto moto, BindingResult result, Model model, RedirectAttributes redirectAttributes) {
-        String erro = motoService.validarDuplicidade(moto);
+        String erro = motoService.validarDuplicidadeCadastro(moto);
         if (erro != null) {
             result.reject("error.moto", erro);
         }
@@ -83,6 +84,36 @@ public class MotoController {
         motoService.deleteById(id);
         var message = messageSource.getMessage("delete", null, LocaleContextHolder.getLocale());
         redirect.addFlashAttribute("message", message + " realizada com sucesso!");
+        return "redirect:/moto";
+    }
+
+    //editar motos
+    @GetMapping("/edit/{id}")
+    public String editForm(@PathVariable Long id, Model model) {
+        Moto moto = motoService.findById(id);
+        model.addAttribute("moto", moto);
+        model.addAttribute("patios", patioRepository.findAll());
+        return "form";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String updateMoto(@PathVariable Long id, @Valid @ModelAttribute Moto motoAtualizada, BindingResult result, Model model, RedirectAttributes redirectAttributes) {
+        String erro = motoService.validarDuplicidadeEdicao(motoAtualizada, id);
+        if (erro != null) {
+            result.reject("error.moto", erro);
+        }
+        if (result.hasErrors()) {
+            model.addAttribute("moto", motoAtualizada);
+            model.addAttribute("patios", patioRepository.findAll());
+            return "form";
+        }
+        Moto motoExistente = motoService.findById(id);
+        motoExistente.setPlaca(motoAtualizada.getPlaca());
+        motoExistente.setModelo(motoAtualizada.getModelo());
+        motoExistente.setNumeroChassi(motoAtualizada.getNumeroChassi());
+        motoExistente.setStatus(motoAtualizada.getStatus());
+        motoExistente.setPatio(motoAtualizada.getPatio());
+        motoService.save(motoExistente);
         return "redirect:/moto";
     }
 }

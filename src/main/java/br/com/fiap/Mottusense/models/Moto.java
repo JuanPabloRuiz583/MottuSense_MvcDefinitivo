@@ -45,7 +45,8 @@ public class Moto {
     private Patio patio;
 
 
-    //@OneToMany(mappedBy = "moto", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    //private List<SensorLocalizacao> sensores;
-
+    @Override
+    public String toString() {
+        return "Moto{id=" + id + ", placa='" + placa + "', modelo='" + modelo + "'}";
+    }
 }
