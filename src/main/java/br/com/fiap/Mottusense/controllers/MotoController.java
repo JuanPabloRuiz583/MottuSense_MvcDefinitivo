@@ -17,6 +17,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import jakarta.validation.Valid;
 import org.springframework.validation.BindingResult;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/moto")
 public class MotoController {
@@ -115,5 +117,20 @@ public class MotoController {
         motoExistente.setPatio(motoAtualizada.getPatio());
         motoService.save(motoExistente);
         return "redirect:/moto";
+    }
+
+
+    //buscar motos por placa
+    @GetMapping("/search")
+    public String searchByPlaca(@RequestParam("placa") String placa, Model model, @AuthenticationPrincipal OAuth2User user) {
+        if (user == null) {
+            return "redirect:/login";
+        }
+        List<Moto> motos = motoService.findByPlacaContainingIgnoreCase(placa);
+        model.addAttribute("motos", motos);
+        model.addAttribute("user", user);
+        var avatar = user.getAttribute("picture") != null ? user.getAttribute("picture") : user.getAttribute("avatar_url");
+        model.addAttribute("avatar", avatar);
+        return "index";
     }
 }

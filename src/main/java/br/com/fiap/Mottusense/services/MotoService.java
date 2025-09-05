@@ -61,4 +61,7 @@ public class MotoService implements DuplicidadeValidator<Moto> {
                 .orElseThrow(() -> new RuntimeException("Moto não encontrada"));
     }
 
+    public List<Moto> findByPlacaContainingIgnoreCase(String placa) {
+        return motoRepository.findByPlacaContainingIgnoreCase(placa);
+    }
 }
