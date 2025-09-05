@@ -6,37 +6,56 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
     <title>Sensores - Mottu Sense</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            min-height: 100vh;
+        }
+        .decorative-element {
+            height: 6px;
+            background: linear-gradient(90deg, #16a34a, #22c55e, #4ade80);
+            border-radius: 3px;
+            margin: 15px 0;
+        }
+        .logo-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+    </style>
 </head>
 <body>
-<nav class="navbar bg-blue-600 text-white shadow-sm p-4">
+<nav class="navbar bg-gradient-to-r from-green-700 to-green-500 text-white shadow-sm p-4 rounded-b-2xl">
     <div class="flex-1">
         <span class="logo-title">Sensores</span>
     </div>
     <div class="flex-none">
-        <a href="/moto" class="btn bg-blue-700 text-white border-none hover:bg-blue-800">Voltar</a>
+        <a href="/moto" class="btn btn-success">Voltar</a>
     </div>
 </nav>
+<div class="decorative-element"></div>
 
 <div class="p-4">
-    <a href="/sensor-localizacao/form" class="btn bg-blue-600 text-white border-none hover:bg-blue-700">Cadastrar Sensor</a>
+    <a href="/sensor-localizacao/form" class="btn btn-success">Cadastrar Sensor</a>
 </div>
 
 <div th:if="${message}" class="alert alert-success mb-4">
     <span th:text="${message}"></span>
 </div>
 
-<main class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4 place-items-center ">
-    <div th:each="sensor : ${sensores}" class="card w-96 bg-base-300 card-md shadow-sm">
-        <div class="badge bg-blue-600 text-white m-4" th:text="${sensor.timeDaLocalizacao}"></div>
+<main class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-4 place-items-center">
+    <div th:each="sensor : ${sensores}" class="card w-96 bg-white shadow-lg rounded-2xl">
+        <div class="badge badge-success m-4" th:text="${sensor.timeDaLocalizacao}"></div>
         <div class="card-body items-center">
-            <h2 class="card-title">Sensor</h2>
+            <h2 class="card-title text-green-700">Sensor</h2>
             <p th:text="'Latitude: ' + ${sensor.latitude}"></p>
             <p th:text="'Longitude: ' + ${sensor.longitude}"></p>
             <p th:if="${sensor.moto != null}" th:text="'Moto: ' + ${sensor.moto.placa}"></p>
         </div>
         <div class="justify-end card-actions m-4">
             <form th:action="@{/sensor-localizacao/delete/{id}(id=${sensor.id})}" method="post" style="display:inline;">
-                <button type="submit" class="btn bg-red-600 text-white border-none hover:bg-red-700">Excluir</button>
+                <button type="submit" class="btn btn-error">Excluir</button>
             </form>
         </div>
     </div>

@@ -1,103 +1,95 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="ligth">
+<html lang="pt-BR" data-theme="light">
 <head>
     <meta charset="UTF-8">
-    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
     <title>Mottu Sense</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            min-height: 100vh;
+        }
+        .decorative-element {
+            height: 6px;
+            background: linear-gradient(90deg, #16a34a, #22c55e, #4ade80);
+            border-radius: 3px;
+            margin: 15px 0;
+        }
+
+    </style>
 </head>
 <body>
-
-<nav class="navbar bg-green-600 text-white shadow-sm p-4">
-    <div class="flex-1">
-        <div class="logo-container">
-            <!-- Substitua pelo caminho real da sua imagem -->
-            <img src="/images/logoo.jpg" alt="Mottu Sense Logo" class="h-12 w-auto" style="max-width: 100%; height: auto;">
-            <div class="logo-text">
-                <span class="logo-title">Mottu Sense</span>
-                <span class="logo-subtitle">Controle inteligente, gestão eficiente.</span>
-            </div>
-        </div>
+<div class="container mx-auto max-w-5xl p-4">
+    <!-- Cabeçalho -->
+    <div class="bg-gradient-to-r from-green-700 to-green-500 rounded-2xl p-8 mb-8 shadow text-white text-center">
+        <img src="/images/logoo.jpg" alt="Mottu Sense Logo" class="mx-auto mb-4 h-16 rounded-full shadow-lg">
+        <h1 class="text-4xl font-bold mb-2">Mottu Sense</h1>
+        <p class="opacity-90">Controle inteligente, gestão eficiente.</p>
     </div>
-    <div class="flex-none">
-        <ul class="menu menu-horizontal px-1">
-            <li>
-                <a href="/patio" class="btn bg-green-700 text-white border-none hover:bg-green-800">Ver Pátios</a>
-            </li>
-            <li>
-                <details>
-                    <summary class="bg-green-700 text-white">🌎</summary>
-                    <ul class="bg-green-600 rounded-t-none p-2">
-                        <li><a href="?lang=pt_BR" class="text-white hover:bg-green-700">🇧🇷</a></li>
-                        <li><a href="?lang=en_US" class="text-white hover:bg-green-700">🏴</a></li>
-                    </ul>
-                </details>
-            </li>
-        </ul>
-        <!-- Bloco de autenticação -->
-        <div class="dropdown dropdown-end">
-            <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
-                <div class="w-10 rounded-full">
-                    <img
-                            alt="Tailwind CSS Navbar component"
-                            th:src="${avatar}" />
-                </div>
-            </div>
-            <ul
-                    tabindex="0"
-                    class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
-                <li>
-                    <a class="justify-between" th:text="${user.attributes.email}"></a>
-                </li>
-                <li><a href="/logout">Logout</a></li>
-            </ul>
+    <div class="decorative-element"></div>
+
+    <!-- Navbar -->
+    <div class="flex justify-between items-center mb-6">
+        <div class="flex gap-3">
+            <a href="/patio" class="btn btn-success">Ver Pátios</a>
+            <a href="/moto/form" class="btn btn-success" th:text="#{moto.new}"></a>
+            <a href="/sensor-localizacao" class="btn btn-info">Ir para a página de sensores</a>
         </div>
+        <div class="flex items-center gap-3">
+            <img th:src="${avatar}" alt="Avatar" class="w-10 h-10 rounded-full border-2 border-green-600">
+            <span th:text="${user.attributes.email}" class="font-semibold text-green-700"></span>
+            <a href="/logout" class="btn btn-error">Logout</a>
+
+            <details>
+                <summary class="btn btn-success">🌎</summary>
+                <ul class="bg-green-600 rounded-t-none p-2">
+                    <li><a href="?lang=pt_BR" class="text-white hover:bg-green-700 px-4 py-2 block">🇧🇷 Português</a></li>
+                    <li><a href="?lang=en_US" class="text-white hover:bg-green-700 px-4 py-2 block">🏴 English</a></li>
+                </ul>
+            </details>
+        </div>
+
     </div>
-</nav>
 
-<div class="p-4">
-    <a href="/moto/form" class="btn bg-green-600 text-white border-none hover:bg-green-700" th:text="#{moto.new}"></a>
-    <a href="/sensor-localizacao" class="btn bg-blue-600 text-white border-none hover:bg-blue-700">Ir para a página de sensores</a>
-
-</div>
-
-<!-- Adicione aqui a barra de busca -->
-<div class="flex justify-center items-center p-4">
-    <form th:action="@{/moto/search}" method="get" class="flex items-center gap-2 w-full max-w-md">
-        <input type="text" name="placa" placeholder="Buscar por placa..." class="input input-bordered w-full" />
-        <button type="submit" class="btn bg-green-600 text-white border-none hover:bg-green-700 flex items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2" fill="none"/>
-                <line x1="21" y1="21" x2="16.65" y2="16.65" stroke="currentColor" stroke-width="2"/>
-            </svg>
-            Buscar
+    <!-- Barra de busca -->
+    <form th:action="@{/moto/search}" method="get" class="flex justify-center gap-2 mb-6">
+        <input type="text" name="placa" placeholder="Buscar por placa..." class="input input-bordered w-80" />
+        <button type="submit" class="btn btn-success">
+            <i class="fas fa-search mr-2"></i> Buscar
         </button>
     </form>
-</div>
 
-<div th:if="${message}" role="alert" class="alert bg-green-100 text-green-800 border-green-400 border-l-4 border-green-600 m-4">
-    <span th:text="${message}"></span>
-</div>
-
-
-<main class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4 place-items-center ">
-    <div th:each="moto : ${motos}" class="card w-96 bg-base-300 card-md shadow-sm">
-        <div class="badge bg-green-600 text-white m-4" th:text="${moto.status}"></div>
-        <div class="card-body items-center">
-            <h2 class="card-title" th:text="${moto.modelo}"></h2>
-            <p th:text="'Placa: ' + ${moto.placa}"></p>
-            <p th:text="'Chassi: ' + ${moto.numeroChassi}"></p>
-            <p th:if="${moto.patio != null}" th:text="'Pátio: ' + ${moto.patio.nome}"></p>
-        </div>
-        <div class="justify-end card-actions m-4">
-            <a th:href="@{/moto/edit/{id}(id=${moto.id})}" class="btn bg-yellow-500 text-white border-none hover:bg-yellow-600" th:text="#{edit}"></a>
-            <form th:action="@{/moto/delete/{id}(id=${moto.id})}" method="post" style="display:inline;">
-                <button type="submit" class="btn bg-red-600 text-white border-none hover:bg-red-700" th:text="#{delete}"></button>
-            </form>
-        </div>
+    <!-- Mensagem de alerta -->
+    <div th:if="${message}" role="alert" class="alert alert-success mb-6">
+        <span th:text="${message}"></span>
     </div>
-</main>
 
+    <!-- Cards das motos -->
+    <main class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div th:each="moto : ${motos}" class="card bg-white shadow-lg rounded-2xl">
+            <div class="badge badge-success m-4" th:text="${moto.status}"></div>
+            <div class="card-body p-6">
+                <h2 class="card-title text-green-700" th:text="${moto.modelo}"></h2>
+                <p th:text="'Placa: ' + ${moto.placa}"></p>
+                <p th:text="'Chassi: ' + ${moto.numeroChassi}"></p>
+                <p th:if="${moto.patio != null}" th:text="'Pátio: ' + ${moto.patio.nome}"></p>
+            </div>
+            <div class="card-actions justify-end p-4">
+                <a th:href="@{/moto/edit/{id}(id=${moto.id})}" class="btn btn-warning">Editar</a>
+                <form th:action="@{/moto/delete/{id}(id=${moto.id})}" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-error">Excluir</button>
+                </form>
+            </div>
+        </div>
+        <!-- Estado vazio -->
+        <div th:if="${motos.empty}" class="empty-state col-span-full text-center py-16 text-gray-500">
+            <i class="fas fa-inbox text-5xl mb-4"></i>
+            <h3 class="text-xl font-bold mb-2">Nenhuma moto cadastrada</h3>
+            <p>Não há motos disponíveis no sistema no momento.</p>
+        </div>
+    </main>
+</div>
 </body>
 </html>
