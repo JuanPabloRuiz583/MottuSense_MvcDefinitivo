@@ -1,4 +1,3 @@
-// src/main/java/br/com/fiap/Mottusense/services/SensorLocalizacaoService.java
 package br.com.fiap.Mottusense.services;
 
 import br.com.fiap.Mottusense.models.SensorLocalizacao;
@@ -11,7 +10,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-public class SensorLocalizacaoService {
+public class SensorLocalizacaoService implements DuplicidadeValidator<SensorLocalizacao> {
 
     private final SensorLocalizacaoRepository repository;
     private final MotoRepository motoRepository;
@@ -48,5 +47,29 @@ public class SensorLocalizacaoService {
 
     public void deletar(Long id) {
         repository.deleteById(id);
+    }
+
+
+
+    // Validação de duplicidade para cadastro
+    @Override
+    public String validarDuplicidadeCadastro(SensorLocalizacao sensor) {
+        boolean existe = repository.existsByLatitudeAndLongitudeAndTimeDaLocalizacao(
+                sensor.getLatitude(), sensor.getLongitude(), sensor.getTimeDaLocalizacao());
+        if (existe) {
+            return "Já existe um sensor cadastrado para esta localização e data/hora.";
+        }
+        return null;
+    }
+
+    // Validação de duplicidade para edição
+    @Override
+    public String validarDuplicidadeEdicao(SensorLocalizacao sensor, Long idAtual) {
+        SensorLocalizacao existente = repository.findByLatitudeAndLongitudeAndTimeDaLocalizacao(
+                sensor.getLatitude(), sensor.getLongitude(), sensor.getTimeDaLocalizacao());
+        if (existente != null && !existente.getId().equals(idAtual)) {
+            return "Já existe um sensor cadastrado para esta localização e data/hora.";
+        }
+        return null;
     }
 }

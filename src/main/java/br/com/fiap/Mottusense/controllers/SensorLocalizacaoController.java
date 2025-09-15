@@ -48,6 +48,10 @@ public class SensorLocalizacaoController {
 
     @PostMapping("/form")
     public String saveSensor(@Valid @ModelAttribute SensorLocalizacao sensorLocalizacao, BindingResult result, Model model, RedirectAttributes redirectAttributes) {
+        String erro = sensorService.validarDuplicidadeCadastro(sensorLocalizacao);
+        if (erro != null) {
+            result.reject("error.sensor", erro);
+        }
         if (result.hasErrors()) {
             model.addAttribute("motos", motoRepository.findAll());
             return "formsensor";
@@ -62,6 +66,46 @@ public class SensorLocalizacaoController {
             return "formsensor";
         } catch (DataIntegrityViolationException e) {
             result.reject("error.sensor", "Erro de integridade ao salvar sensor.");
+            model.addAttribute("motos", motoRepository.findAll());
+            return "formsensor";
+        }
+        return "redirect:/sensor-localizacao";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String editForm(@PathVariable Long id, Model model) {
+        SensorLocalizacao sensor = sensorService.buscarPorId(id);
+        model.addAttribute("sensorLocalizacao", sensor);
+        model.addAttribute("motos", motoRepository.findAll());
+        return "formsensor";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String updateSensor(@PathVariable Long id, @Valid @ModelAttribute SensorLocalizacao sensorAtualizado, BindingResult result, Model model, RedirectAttributes redirectAttributes) {
+        String erro = sensorService.validarDuplicidadeEdicao(sensorAtualizado, id);
+        if (erro != null) {
+            result.reject("error.sensor", erro);
+        }
+        if (result.hasErrors()) {
+            model.addAttribute("sensorLocalizacao", sensorAtualizado);
+            model.addAttribute("motos", motoRepository.findAll());
+            return "formsensor";
+        }
+        SensorLocalizacao sensorExistente = sensorService.buscarPorId(id);
+        sensorExistente.setLatitude(sensorAtualizado.getLatitude());
+        sensorExistente.setLongitude(sensorAtualizado.getLongitude());
+        sensorExistente.setTimeDaLocalizacao(sensorAtualizado.getTimeDaLocalizacao());
+        sensorExistente.setMoto(sensorAtualizado.getMoto());
+        try {
+            sensorService.validarSensor(sensorExistente);
+            sensorService.salvar(sensorExistente);
+            redirectAttributes.addFlashAttribute("message", "Sensor editado com sucesso");
+        } catch (IllegalArgumentException e) {
+            result.reject("error.sensor", e.getMessage());
+            model.addAttribute("motos", motoRepository.findAll());
+            return "formsensor";
+        } catch (DataIntegrityViolationException e) {
+            result.reject("error.sensor", "Erro de integridade ao editar sensor.");
             model.addAttribute("motos", motoRepository.findAll());
             return "formsensor";
         }
