@@ -35,5 +35,43 @@ Aplicação web MVC para gestão de motos, sensores de localização e pátios, 
 
 1. **Clone o repositório:**
    ```bash
-   git clone https://github.com/SEU_USUARIO/SEU_REPOSITORIO.git
-   cd SEU_REPOSITORIO
+   git clone https://github.com/JuanPabloRuiz583/MottuSense_MvcDefinitivo.git
+
+2.**Configure as seguintes variaveis de ambiente para funcionar a autenticacao no google e github:**
+
+   GITHUB_CLIENT_ID = Ov23li0Nu4JFz0n2ay1r
+   GITHUB_CLIENT_SECRET = 948617a4f142c1964d46d670371112340f8a964c
+
+3. **Abra o docker desktop antes de executar o projeto**
+   
+4. **rode o projeto**
+
+5. **Acesse no navegador:**
+
+🔑 Login (autentique-se primeiro):
+http://localhost:8080/login
+
+🏍️ Motos — Cadastro / Edição / Remoção / Listagem / Busca por placa:
+http://localhost:8080/moto
+(se não estiver autenticado, será redirecionado para a tela de login)
+
+📄 Formulário de Motos:
+http://localhost:8080/moto/form
+(acessível também clicando no botão "Nova moto")
+
+🏢 Pátios — Listagem (ver quais pátios estão disponíveis antes do cadastro):
+http://localhost:8080/patio
+
+📍 Sensores — Cadastro / Edição / Remoção / Listagem:
+http://localhost:8080/sensor-localizacao
+(para criar, é necessário ter uma moto cadastrada para vincular a placa)
+
+📝 Formulário de Sensores:
+http://localhost:8080/sensor-localizacao/form
+(acessível também clicando no botão "Cadastrar sensor")
+
+🔒 Logout:
+http://localhost:8080/logout
+
+
+
