@@ -77,6 +77,10 @@ http://localhost:8080/sensor-localizacao/form
 http://localhost:8080/logout
 
 
+
+# Link do deploy no render
+https://mottusense.onrender.com
+
 ## Integrantes
 
 Barbara Dias Santos rm: 556974
