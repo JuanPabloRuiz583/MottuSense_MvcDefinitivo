@@ -81,6 +81,13 @@ http://localhost:8080/logout
 # Link do deploy no render
 https://mottusense.onrender.com
 
+
+
+
+
+## Link do backlog para materia de Qa
+https://dev.azure.com/RM556974/BL_Produto
+
 ## Integrantes
 
 Barbara Dias Santos rm: 556974
